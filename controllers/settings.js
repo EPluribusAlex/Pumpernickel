@@ -1,3 +1,5 @@
-const tInterval = 1000;
+const settings = {
+	tInterval: 1000
+};
 
-export { tInterval };
+export { settings };
