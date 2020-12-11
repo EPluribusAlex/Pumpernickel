@@ -1,0 +1,9 @@
+{
+  "name": "Pumpernickel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:EPluribusAlex/Pumpernickel.git",
+  "author": "Alexander Florian-Prescott <florianprescott@googlemail.com>",
+  "license": "MIT",
+  "type": "module"
+}
