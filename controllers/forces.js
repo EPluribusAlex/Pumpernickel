@@ -22,7 +22,7 @@ class LineInf extends Unit {
 		this.stats = Unit.baseStats.lineInf;
 
 		this.serial = super.generateSerial();
-		this.name = This.stats.name;
+		this.name = this.stats.name;
 		this.strength = this.stats.size;
 		this.fire = this.stats.fire;
 	}
