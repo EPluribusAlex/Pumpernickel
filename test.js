@@ -1,8 +1,8 @@
-import { forces } from './controllers/index.js';
+import { forces, combat } from './controllers/index.js';
 
 const Army = forces.Army;
 
 let army1 = new Army("Killers", {lineInf: 10});
-let army2 = new Army("hunters", {lineInf: 10});
+let army2 = new Army("Hunters", {lineInf: 10});
 
-console.log(army1.name, army2.name);
+combat(army1, army2);
