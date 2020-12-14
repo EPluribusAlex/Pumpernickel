@@ -45,7 +45,7 @@ class Army {
 		});
 		return total;
 	}
-	
+
 	get fireTotal() {
 		let total = 0;
 		this.units.forEach(e => {
@@ -55,4 +55,4 @@ class Army {
 	}
 }
 
-export { Unit, Army };
+export { Army };
