@@ -5,7 +5,7 @@ class Unit {
 		lineInf: {
 			name: "Line Infantry",
 			size: 1000,
-			fire: 20
+			fire: 50
 		}
 	}
 	generateSerial() {
@@ -42,6 +42,14 @@ class Army {
 		let total = 0;
 		this.units.forEach(e => {
 			total+= e.strength;
+		});
+		return total;
+	}
+	
+	get fireTotal() {
+		let total = 0;
+		this.units.forEach(e => {
+			total+= e.fire;
 		});
 		return total;
 	}

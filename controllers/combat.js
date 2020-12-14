@@ -8,29 +8,26 @@ const combatRoll = function() {
 
 const combat = function(attacker, defender) {
 	let 
-		atkStr = 0,
-		atkFire = 0, 
-		dfnStr = 0,
-		dfnFire = 0, 
+		atkStr = attacker.troopTotal, 
+		dfnStr = defender.troopTotal, 
 		tick = 0, 
 		atkRoll = combatRoll(),
 		dfnRoll = combatRoll();
-
-	attacker.units.forEach(e => {
-		atkStr+= e.strength;
-		atkFire+= e.fire;
-	});
-
-	defender.units.forEach(e => {
-		dfnStr+= e.strength;
-		dfnFire+= e.fire;
-	});
 
 	console.log(attacker.name + " with " + atkStr + " is attacking " + defender.name + " with " + dfnStr + "!");
 	console.log("initial rolls " + atkRoll + "/" + dfnRoll)
 
 	const combatRound = () => {
 		tick++;
+		console.log("Round " + tick);
+
+		const damage = (army, num, roll) => {
+			const 
+				fire = army.fireTotal,
+				str = num / army.troopTotal,
+				bonus = roll / 6;
+			return (Math.ceil((fire + (fire * bonus)) * str));
+		}
 
 		if(tick % 5 === 0) {
 			atkRoll = combatRoll();
@@ -39,8 +36,8 @@ const combat = function(attacker, defender) {
 		}
 
 		if(atkStr > 0 && dfnStr > 0) {
-			dfnStr-= atkFire + Math.ceil(atkFire * atkRoll / 6);
-			atkStr-= dfnFire + Math.ceil(dfnFire * dfnRoll / 6);
+			dfnStr-= damage(attacker, atkStr, atkRoll);
+			atkStr-= damage(defender, dfnStr, dfnRoll);
 			if(atkStr < 0) {atkStr = 0}
 			if(dfnStr < 0) {dfnStr = 0}
 			console.log(atkStr + " attacker/" + dfnStr + " defender");
