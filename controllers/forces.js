@@ -5,7 +5,7 @@ class Unit {
 		lineInf: {
 			name: "Line Infantry",
 			size: 1000,
-			fire: 15
+			fire: 20
 		}
 	}
 	generateSerial() {
@@ -20,7 +20,6 @@ class LineInf extends Unit {
 	constructor() {
 		super();
 		this.stats = Unit.baseStats.lineInf;
-
 		this.serial = super.generateSerial();
 		this.name = this.stats.name;
 		this.strength = this.stats.size;
