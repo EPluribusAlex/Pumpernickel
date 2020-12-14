@@ -6,7 +6,7 @@ const combatRoll = function() {
 	return (Math.floor(Math.random() * 6 + 1) - Math.floor(Math.random() * 6 + 1));
 }
 
-const combat = function(attacker, defender) {
+const combat = function(attacker, defender, callback) {
 	let 
 		atkStr = attacker.troopTotal, 
 		dfnStr = defender.troopTotal, 
@@ -27,7 +27,7 @@ const combat = function(attacker, defender) {
 				str = num / army.troopTotal,
 				bonus = roll / 6;
 			return (Math.ceil((fire + (fire * bonus)) * str));
-		}
+		};
 
 		if(tick % 5 === 0) {
 			atkRoll = combatRoll();
@@ -38,8 +38,8 @@ const combat = function(attacker, defender) {
 		if(atkStr > 0 && dfnStr > 0) {
 			dfnStr-= damage(attacker, atkStr, atkRoll);
 			atkStr-= damage(defender, dfnStr, dfnRoll);
-			if(atkStr < 0) {atkStr = 0}
-			if(dfnStr < 0) {dfnStr = 0}
+			if(atkStr < 0) { atkStr = 0 }
+			if(dfnStr < 0) { dfnStr = 0 }
 			console.log(atkStr + " attacker/" + dfnStr + " defender");
 		} else if(atkStr > 0) {
 			console.log("Attacker wins!");
@@ -56,9 +56,45 @@ const combat = function(attacker, defender) {
 	const end = () => {
 		clearInterval(begin);
 		console.log(atkStr + " surviving attackers", dfnStr + " surviving defenders");
+
+		let 
+			atkLosses = attacker.troopTotal - atkStr,
+			dfnLosses = defender.troopTotal - dfnStr;
+
+		if(atkLosses === attacker.troopTotal) {
+			atkLosses = 0;
+			attacker.units = [];
+		}
+
+		if(dfnLosses === defender.troopTotal) {
+			dfnLosses = 0;
+			defender.units = [];
+		}
+
+		while(atkLosses > 0) {
+			if(attacker.units[0].strength < atkLosses) {
+				atkLosses-= attacker.units[0].strength;
+				attacker.units.splice(0, 1);
+			} else {
+				attacker.units[0].strength-= atkLosses;
+				atkLosses = 0;
+			}
+		}
+
+		while(dfnLosses > 0) {
+			if(defender.units[0].strength < dfnLosses) {
+				dfnLosses-= defender.units[0].strength;
+				defender.units.splice(0, 1);
+			} else {
+				defender.units[0].strength-= dfnLosses;
+				dfnLosses = 0;
+			}
+		}
+
+		callback(attacker, defender);
 	}
 
 	const begin = setInterval(combatRound, tInterval);
-}
+};
 
 export { combat };
