@@ -1,5 +1,5 @@
 const settings = {
-	tInterval: 200
+	tInterval: 500
 };
 
 export { settings };

@@ -2,6 +2,7 @@ import { settings } from './index.js';
 
 const tInterval = settings.tInterval;
 
+// Simulate probability distribution of 2D6 with range from -5 to 5.
 const combatRoll = function() {
 	return (Math.floor(Math.random() * 6 + 1) - Math.floor(Math.random() * 6 + 1));
 }
@@ -11,16 +12,18 @@ const combat = function(attacker, defender, callback) {
 		atkStr = attacker.troopTotal, 
 		dfnStr = defender.troopTotal, 
 		tick = 0, 
-		atkRoll = combatRoll(),
-		dfnRoll = combatRoll();
+		atkRoll,
+		dfnRoll;
 
 	console.log(attacker.name + " with " + atkStr + " is attacking " + defender.name + " with " + dfnStr + "!");
 	console.log("initial rolls " + atkRoll + "/" + dfnRoll)
 
+	// will iterate until battle is over
 	const combatRound = () => {
 		tick++;
 		console.log("Round " + tick);
 
+		// calculate damage inflicted based on numbers and combat roll
 		const damage = (army, num, roll) => {
 			const 
 				fire = army.fireTotal,
@@ -29,12 +32,14 @@ const combat = function(attacker, defender, callback) {
 			return (Math.ceil((fire + (fire * bonus)) * str));
 		};
 
-		if(tick % 5 === 0) {
+		// re-roll combat dice after every 5th day
+		if((tick - 1) % 5 === 0) {
 			atkRoll = combatRoll();
 			dfnRoll = combatRoll();
 			console.log("new combat rolls of " + atkRoll + "/" + dfnRoll);
 		}
 
+		// check for end condition and apply new losses to each side
 		if(atkStr > 0 && dfnStr > 0) {
 			dfnStr-= damage(attacker, atkStr, atkRoll);
 			atkStr-= damage(defender, dfnStr, dfnRoll);
@@ -53,6 +58,7 @@ const combat = function(attacker, defender, callback) {
 		}
 	}
 
+	// end combat loop and return results so they can be applied to the original army objects
 	const end = () => {
 		clearInterval(begin);
 		console.log(atkStr + " surviving attackers", dfnStr + " surviving defenders");
