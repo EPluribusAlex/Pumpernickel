@@ -1,4 +1,4 @@
-import { Army, combat } from './controllers/index.js';
+import { Army, combat } from './controllers/armies/index.js';
 
 let army1 = new Army("Killers", { lineInf: 10 });
 let army2 = new Army("Hunters", { lineInf: 10 });
