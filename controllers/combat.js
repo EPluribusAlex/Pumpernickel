@@ -9,9 +9,12 @@ const combatRoll = function() {
 const combat = function(attacker, defender) {
 	console.log(attacker.name + " is attacking " + defender.name + "!");
 
-	const begin = () => setInterval(combatRound, tInterval);
+	const begin = setInterval(combatRound, tInterval);
 
-	const end = () => clearInterval(begin);
+	const end = () => {
+		clearInterval(begin);
+		console.log(atkStr + " surviving attackers", dfnStr + " surviving defenders");
+	}
 
 	let 
 		atkStr = 0, 
@@ -24,10 +27,6 @@ const combat = function(attacker, defender) {
 	defender.units.forEach(e => {
 		dfnStr+= e.strength;
 	});
-
-	begin();
-
-	console.log(atkStr + " surviving attackers", dfnStr + " surviving defenders");
 
 	function combatRound() {
 		if(atkStr > 0 && dfnStr > 0) {
@@ -45,7 +44,6 @@ const combat = function(attacker, defender) {
 			end();
 		}
 	}
-
 }
 
 export { combat };
