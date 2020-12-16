@@ -7,7 +7,7 @@ const combatRoll = function() {
 	return (Math.floor(Math.random() * 6 + 1) - Math.floor(Math.random() * 6 + 1));
 }
 
-const combat = function(attacker, defender, callback) {
+const combat = function(attacker, defender, combatWidth, callback) {
 	let 
 		atkStr = attacker.troopTotal, 
 		dfnStr = defender.troopTotal, 
@@ -16,7 +16,6 @@ const combat = function(attacker, defender, callback) {
 		dfnRoll;
 
 	console.log(attacker.name + " with " + atkStr + " is attacking " + defender.name + " with " + dfnStr + "!");
-	console.log("initial rolls " + atkRoll + "/" + dfnRoll)
 
 	// will iterate until battle is over
 	const combatRound = () => {
@@ -26,10 +25,12 @@ const combat = function(attacker, defender, callback) {
 		// calculate damage inflicted based on numbers and combat roll
 		const damage = (army, num, roll) => {
 			const 
-				fire = army.fireTotal,
-				str = num / army.troopTotal,
+				armyWidth = num / 1000,
+				fire = army.fireTotal(combatWidth),
+				strPercent = (num > (armyWidth * 1000)) ? 1 : num / (armyWidth * 1000),
 				bonus = roll / 6;
-			return (Math.ceil((fire + (fire * bonus)) * str));
+			console.log("Combat width " + combatWidth + " allows " + Math.ceil((fire + fire * bonus) * strPercent) + " damage.");
+			return Math.ceil((fire + fire * bonus) * strPercent);
 		};
 
 		// re-roll combat dice after every 5th day

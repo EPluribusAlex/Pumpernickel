@@ -46,11 +46,17 @@ class Army {
 		return total;
 	}
 
-	get fireTotal() {
-		let total = 0;
-		this.units.forEach(e => {
-			total+= e.fire;
-		});
+	fireTotal(combatWidth) {
+		let 
+			total = 0,
+			armyWidth = 0;
+		for(let i = 0; i < combatWidth; i++) {
+			if(!this.units[i]) {
+				break;
+			}
+			armyWidth++;
+			total+= this.units[i].fire;
+		}
 		return total;
 	}
 }
