@@ -25,10 +25,10 @@ const combat = function(attacker, defender, combatWidth, callback) {
 		// calculate damage inflicted based on numbers and combat roll
 		const damage = (army, num, roll) => {
 			const 
-				armyWidth = num / 1000,
-				fire = army.fireTotal(combatWidth),
-				strPercent = (num > (armyWidth * 1000)) ? 1 : num / (armyWidth * 1000),
-				bonus = roll / 6;
+				initSize = army.troopTotal,
+				fire = army.maxFire(combatWidth),
+				strPercent = num >= (combatWidth * 1000) ? 1 : initSize >= (combatWidth * 1000) ? num / (combatWidth * 1000) : num / initSize,
+				bonus = roll / 10;
 			console.log("Combat width " + combatWidth + " allows " + Math.ceil((fire + fire * bonus) * strPercent) + " damage.");
 			return Math.ceil((fire + fire * bonus) * strPercent);
 		};

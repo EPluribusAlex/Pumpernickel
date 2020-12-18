@@ -5,7 +5,7 @@ class Unit {
 		lineInf: {
 			name: "Line Infantry",
 			size: 1000,
-			fire: 50
+			fire: 100
 		}
 	}
 	generateSerial() {
@@ -46,7 +46,7 @@ class Army {
 		return total;
 	}
 
-	fireTotal(combatWidth) {
+	maxFire(combatWidth) {
 		let 
 			total = 0,
 			armyWidth = 0;
