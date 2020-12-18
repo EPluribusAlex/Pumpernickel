@@ -1,5 +1,5 @@
 const settings = {
-	tInterval: 500,
+	tInterval: 200,
 	rollWeight: 1 / 10
 };
 

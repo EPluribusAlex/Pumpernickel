@@ -5,6 +5,7 @@ class Unit {
 		lineInf: {
 			name: "Line Infantry",
 			size: 1000,
+			morale: 100,
 			fire: 100
 		}
 	}
@@ -23,6 +24,7 @@ class LineInf extends Unit {
 		this.serial = super.generateSerial();
 		this.name = this.stats.name;
 		this.strength = this.stats.size;
+		this.morale = this.stats.morale;
 		this.fire = this.stats.fire;
 	}
 }
@@ -42,6 +44,14 @@ class Army {
 		let total = 0;
 		this.units.forEach(e => {
 			total+= e.strength;
+		});
+		return total;
+	}
+
+	get moraleTotal() {
+		let total = 0;
+		this.units.forEach(e => {
+			total+= e.morale;
 		});
 		return total;
 	}

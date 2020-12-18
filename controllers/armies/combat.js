@@ -13,6 +13,8 @@ const combat = function(attacker, defender, combatWidth, callback) {
 	let 
 		atkStr = attacker.troopTotal, 
 		dfnStr = defender.troopTotal, 
+		atkMorale = attacker.moraleTotal,
+		dfnMorale = attacker.moraleTotal,
 		tick = 0, 
 		atkRoll,
 		dfnRoll;
@@ -43,11 +45,29 @@ const combat = function(attacker, defender, combatWidth, callback) {
 
 		// check for end condition and apply new losses to each side
 		if(atkStr > 0 && dfnStr > 0) {
-			dfnStr-= damage(attacker, atkStr, atkRoll);
-			if(dfnStr < 0) { dfnStr = 0 }
-			atkStr-= damage(defender, dfnStr, dfnRoll);
-			if(atkStr < 0) { atkStr = 0 }
-			console.log(atkStr + " attacker/" + dfnStr + " defender");
+			if(atkMorale > 0 && dfnMorale > 0) {
+				const	
+					atkDmg = damage(attacker, atkStr, atkRoll),
+					dfnDmg = damage(defender, dfnStr, dfnRoll);
+				dfnStr-= atkDmg;
+				if(dfnStr < 0) { dfnStr = 0 }
+				atkStr-= dfnDmg;
+				if(atkStr < 0) { atkStr = 0 }
+				atkMorale-= Math.ceil(dfnDmg / 10);
+				if(atkMorale < 0) { atkMorale = 0 }
+				dfnMorale-= Math.ceil(atkDmg / 10);
+				if(dfnMorale < 0) { dfnMorale = 0 }
+				console.log(atkStr + " attacker with " + atkMorale + " morale/" + dfnStr + " defender with " + dfnMorale + " morale");
+			} else if(atkMorale > 0) {
+				console.log("Attacker wins!");
+				end();
+			} else if(dfnMorale > 0) {
+				console.log("Defender wins!");
+				end();
+			} else {
+				console.log("Draw!");
+				end();
+			}
 		} else if(atkStr > 0) {
 			console.log("Attacker wins!");
 			end();
