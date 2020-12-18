@@ -57,7 +57,7 @@ const combat = function(attacker, defender, combatWidth, callback) {
 				if(atkMorale < 0) { atkMorale = 0 }
 				dfnMorale-= Math.ceil(atkDmg / 10);
 				if(dfnMorale < 0) { dfnMorale = 0 }
-				console.log(atkStr + " attacker with " + atkMorale + " morale/" + dfnStr + " defender with " + dfnMorale + " morale");
+				console.log(atkStr + " attackers with " + atkMorale + " morale/" + dfnStr + " defenders with " + dfnMorale + " morale");
 			} else if(atkMorale > 0) {
 				console.log("Attacker wins!");
 				end();
@@ -87,16 +87,13 @@ const combat = function(attacker, defender, combatWidth, callback) {
 
 		let 
 			atkLosses = attacker.troopTotal - atkStr,
-			dfnLosses = defender.troopTotal - dfnStr;
+			dfnLosses = defender.troopTotal - dfnStr,
+			atkMoralePercent = Math.floor(atkMorale / attacker.moraleTotal),
+			dfnMoralePercent = Math.floor(dfnMorale / defender.moraleTotal);
 
 		if(atkLosses === attacker.troopTotal) {
 			atkLosses = 0;
 			attacker.units = [];
-		}
-
-		if(dfnLosses === defender.troopTotal) {
-			dfnLosses = 0;
-			defender.units = [];
 		}
 
 		while(atkLosses > 0) {
@@ -109,6 +106,15 @@ const combat = function(attacker, defender, combatWidth, callback) {
 			}
 		}
 
+		// attacker.units.forEach(e => {
+		// 	e.morale = e.morale * atkMoralePercent;
+		// });
+
+		if(dfnLosses === defender.troopTotal) {
+			dfnLosses = 0;
+			defender.units = [];
+		}
+
 		while(dfnLosses > 0) {
 			if(defender.units[0].strength < dfnLosses) {
 				dfnLosses-= defender.units[0].strength;
@@ -118,6 +124,10 @@ const combat = function(attacker, defender, combatWidth, callback) {
 				dfnLosses = 0;
 			}
 		}
+
+		// defender.units.forEach(e => {
+		// 	e.morale = e.morale * dfnMoralePercent;
+		// });
 
 		callback(attacker, defender);
 	}

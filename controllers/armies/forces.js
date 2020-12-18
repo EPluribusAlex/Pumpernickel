@@ -5,8 +5,8 @@ class Unit {
 		lineInf: {
 			name: "Line Infantry",
 			size: 1000,
-			morale: 100,
-			fire: 100
+			morale: 90,
+			fire: 50
 		}
 	}
 	generateSerial() {

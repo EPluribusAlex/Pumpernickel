@@ -8,6 +8,7 @@ const combatWidth = 10;
 const battleResult = (attacker, defender) => {
 	army1 = attacker;
 	army2 = defender;
+	console.log(army1, army2);
 };
 
 combat(army1, army2, combatWidth, battleResult);
