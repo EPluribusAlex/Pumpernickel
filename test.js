@@ -1,7 +1,7 @@
 import { Army, combat } from './controllers/armies/index.js';
 
-let army1 = new Army("Killers", { lineInf: 15 });
-let army2 = new Army("Hunters", { lineInf: 15 });
+let army1 = new Army("Killers", { lineInf: 10 });
+let army2 = new Army("Hunters", { lineInf: 10 });
 
 const combatWidth = 10;
 

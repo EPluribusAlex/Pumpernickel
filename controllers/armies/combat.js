@@ -1,6 +1,8 @@
 import { settings } from './index.js';
 
-const tInterval = settings.tInterval;
+const 
+	tInterval = settings.tInterval,
+	rollWeight = settings.rollWeight;
 
 // Simulate probability distribution of 2D6 with range from -5 to 5.
 const combatRoll = function() {
@@ -28,8 +30,7 @@ const combat = function(attacker, defender, combatWidth, callback) {
 				initSize = army.troopTotal,
 				fire = army.maxFire(combatWidth),
 				strPercent = num >= (combatWidth * 1000) ? 1 : initSize >= (combatWidth * 1000) ? num / (combatWidth * 1000) : num / initSize,
-				bonus = roll / 10;
-			console.log("Combat width " + combatWidth + " allows " + Math.ceil((fire + fire * bonus) * strPercent) + " damage.");
+				bonus = roll * rollWeight;
 			return Math.ceil((fire + fire * bonus) * strPercent);
 		};
 
@@ -43,9 +44,9 @@ const combat = function(attacker, defender, combatWidth, callback) {
 		// check for end condition and apply new losses to each side
 		if(atkStr > 0 && dfnStr > 0) {
 			dfnStr-= damage(attacker, atkStr, atkRoll);
+			if(dfnStr < 0) { dfnStr = 0 }
 			atkStr-= damage(defender, dfnStr, dfnRoll);
 			if(atkStr < 0) { atkStr = 0 }
-			if(dfnStr < 0) { dfnStr = 0 }
 			console.log(atkStr + " attacker/" + dfnStr + " defender");
 		} else if(atkStr > 0) {
 			console.log("Attacker wins!");
