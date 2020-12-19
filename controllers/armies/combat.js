@@ -24,7 +24,6 @@ const combat = function(attacker, defender, combatWidth, callback) {
 	// will iterate until battle is over
 	const combatRound = () => {
 		tick++;
-		console.log("Round " + tick);
 
 		// calculate damage inflicted based on numbers and combat roll
 		const damage = (army, num, roll) => {
@@ -46,6 +45,7 @@ const combat = function(attacker, defender, combatWidth, callback) {
 		// check for end condition and apply new losses to each side
 		if(atkStr > 0 && dfnStr > 0) {
 			if(atkMorale > 0 && dfnMorale > 0) {
+				console.log("Round " + tick);
 				const	
 					atkDmg = damage(attacker, atkStr, atkRoll),
 					dfnDmg = damage(defender, dfnStr, dfnRoll);
@@ -83,13 +83,10 @@ const combat = function(attacker, defender, combatWidth, callback) {
 	// end combat loop and return results so they can be applied to the original army objects
 	const end = () => {
 		clearInterval(begin);
-		console.log(atkStr + " surviving attackers", dfnStr + " surviving defenders");
 
 		let 
 			atkLosses = attacker.troopTotal - atkStr,
-			dfnLosses = defender.troopTotal - dfnStr,
-			atkMoralePercent = Math.floor(atkMorale / attacker.moraleTotal),
-			dfnMoralePercent = Math.floor(dfnMorale / defender.moraleTotal);
+			dfnLosses = defender.troopTotal - dfnStr; 
 
 		if(atkLosses === attacker.troopTotal) {
 			atkLosses = 0;
@@ -106,10 +103,6 @@ const combat = function(attacker, defender, combatWidth, callback) {
 			}
 		}
 
-		// attacker.units.forEach(e => {
-		// 	e.morale = e.morale * atkMoralePercent;
-		// });
-
 		if(dfnLosses === defender.troopTotal) {
 			dfnLosses = 0;
 			defender.units = [];
@@ -125,9 +118,13 @@ const combat = function(attacker, defender, combatWidth, callback) {
 			}
 		}
 
-		// defender.units.forEach(e => {
-		// 	e.morale = e.morale * dfnMoralePercent;
-		// });
+		attacker.units.forEach(e => {
+			e.morale = Math.floor(atkMorale / attacker.units.length);
+		});
+
+		defender.units.forEach(e => {
+			e.morale = Math.floor(dfnMorale / defender.units.length);
+		});
 
 		callback(attacker, defender);
 	}
