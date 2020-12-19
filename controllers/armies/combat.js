@@ -53,9 +53,9 @@ const combat = function(attacker, defender, combatWidth, callback) {
 				if(dfnStr < 0) { dfnStr = 0 }
 				atkStr-= dfnDmg;
 				if(atkStr < 0) { atkStr = 0 }
-				atkMorale-= Math.ceil(dfnDmg / 10);
+				atkMorale-= Math.ceil(dfnDmg);
 				if(atkMorale < 0) { atkMorale = 0 }
-				dfnMorale-= Math.ceil(atkDmg / 10);
+				dfnMorale-= Math.ceil(atkDmg);
 				if(dfnMorale < 0) { dfnMorale = 0 }
 				console.log(atkStr + " attackers with " + atkMorale + " morale/" + dfnStr + " defenders with " + dfnMorale + " morale");
 			} else if(atkMorale > 0) {
